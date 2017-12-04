@@ -142,14 +142,12 @@ class LinkedList extends React.Component{
     }
 
     let current = this.state.head;
-    console.log('before',current)
 
     while(current.next !== null) {
       current = current.next;
     }
     current.next = newNode;
 
-    console.log(current)
     // I have literally no idea why this works ?!?!?!?
     this.setState({ head: {...this.state.head}, value: '' });
   }
@@ -240,31 +238,51 @@ class LinkedList extends React.Component{
       <div>
         <Heading>Linked List</Heading>
         <Content>
-
-          <input value={this.state.value} onChange={this.handleChange} />
-          <button onClick={() => this.prepend({ value: this.state.value, head: this.state.head })}>Prepend</button>
-          <button onClick={this.append}>Append</button>
+          <InputContainer>
+            <Input value={this.state.value} onChange={this.handleChange} placeholder='Add a value...' />
+            <ButtonContainer>
+              <Button 
+                onClick={() => this.prepend({ value: this.state.value, head: this.state.head })}
+              >
+                Prepend
+              </Button>
+              <Button 
+                onClick={this.append}
+              >
+                Append
+              </Button>
+            </ButtonContainer>
+          </InputContainer>
           <Overflow>
-          <TransitionGroup className='list-container'>
-            {
-              this.state.head && this.state.output.map((item, index) => {
-                return (
-                <CSSTransition
-                    key={item.id}
-                    classNames={item.prepended ? 'node-pre' : 'node-app'}
-                    timeout={1200}
-                  >
-                    <Item
-                      onClick={() =>  this.setClicked(item)}
+            <TransitionGroup className='list-container'>
+              {
+                this.state.head && this.state.output.map((item, index) => {
+                  return (
+                  <CSSTransition
+                      key={item.id}
+                      classNames={item.prepended ? 'node-pre' : 'node-app'}
+                      timeout={200}
                     >
-                      {item.data}
-                      <DeleteButton onClick={() => this.handleRemove(item)} />
-                    </Item>
-                </CSSTransition>
-              )})
-            }
-          </TransitionGroup>
+                      <Item
+                        onClick={() =>  this.setClicked(item)}
+                      >
+                        {item.data}
+                        <DeleteButton onClick={() => this.handleRemove(item)} />
+                      </Item>
+                  </CSSTransition>
+                )})
+              }
+            </TransitionGroup>
           </Overflow>
+          <div 
+            style={{
+              background: 'white', 
+              color: '#111',
+              fontSize: 30
+            }}
+          >
+            Length: {this.state.output.length}
+          </div>
         </Content>
         <ButtonContainer>
           <Button>Demo</Button>
@@ -279,6 +297,7 @@ export default LinkedList;
 
 const Overflow = styled.div`
   width: 100%;
+  height: 100%;
   margin: 0 auto;
 `;
 
@@ -290,9 +309,9 @@ const Heading = styled.div`
   align-items: center;
   font-size: 55px;
   color: white;
- background: #000000;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #53346D, #000000);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #53346D, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #000000;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #333, #000000);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #333, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 `;
 
@@ -302,13 +321,14 @@ const Item = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #667db6;  
-  margin: 5px;
+  background: #111;
+  margin: 5px 20px;
   box-sizing: border-box;
   color: white;
   position: relative;
   box-shadow: 0px 5px 20px rgba(0,0,0,0.5);
   border-radius: 5px;
+  z-index: 2;  
 `;
 
 const Content = styled.div`
@@ -316,6 +336,7 @@ const Content = styled.div`
   height: calc(80vh - 150px);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   overflow: hidden;
 `;
@@ -331,11 +352,19 @@ const Button = styled.div`
   width: 150px;
   height: 50px;
   background: white;
+  box-sizing: border-box;
+  border: 2px solid #111;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
   margin: 0 5px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  &:hover{
+    color: white;
+    background: #333;
+  }
 `;
 
 const DeleteButton = styled.div`
@@ -343,7 +372,31 @@ const DeleteButton = styled.div`
   height: 20px;
   background: red;
   border-radius: 50%;
-  margin-left: 10px;
+  margin: 0 10px;
+`;
+
+const InputContainer = styled.div`
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 50px;
+`;
+
+const Input = styled.input`
+  width: 310px;
+  height: 70px;
+  background: white;
+  box-sizing: border-box;
+  border: 2px solid #111;
+  border-radius: 0;
+  font-size: 20px;
+  padding: 0 10px;
+  &:focus{
+    outline: none;
+  }
 `;
 
 

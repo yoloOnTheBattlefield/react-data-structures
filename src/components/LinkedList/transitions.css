@@ -1,6 +1,6 @@
 .list-container{
 
-  height: 60px;
+  height: 90px;
   margin: 50px auto;
 
   display: flex;
@@ -8,7 +8,6 @@
   align-items: center;
 
   overflow-x: scroll;
-  box-shadow: inset 0px 5px 5px rgba(0,0,0,0.2);
 }
 
 .node-pre-enter {
@@ -29,8 +28,7 @@
 
 .node-pre-exit.node-pre-exit-active {
   opacity: 0;
-  transform: translatex(-100%);
-  transition: all 200ms ease-in;
+  transition: all 200ms ease-in-out;
 }
 
 
@@ -53,6 +51,5 @@
 
 .node-app-exit.node-app-exit-active {
   opacity: 0;
-  transform: translatex(100%);
-  transition: all 200ms ease-in;
+  transition: all 200ms ease-in-out;
 }
